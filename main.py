@@ -70,27 +70,40 @@ def test_b(**kwargs):
     l = args.l
     assert len(l) >= MIN_LENGTH and n <= MAX_LENGTH
 
-    neckless = []
+    neckless = ['s']
     create_new = True
 
     # mapping = {index:item for index, item in enumerate(l)}
     mapping = [(bead, next_bead) for bead, next_bead in enumerate(l)]
-
+    head = None
     while len(mapping) > 0:
         for item in mapping:
+            print(head)
             print(neckless)
             print(item[0], item[1])
-            if len(neckless) == 0 or neckless[-1] == 'stop':
+            if head == None: head = item[0]
+            if neckless[-1] == 's':
                 neckless.extend([item[0], item[1]])
-                # del mapping[bead]
-                mapping.pop(item)
+                mapping.remove(item)
+                head = item[0]
                 continue
             if neckless[-1] != item[0]: continue
+            if head == item[1]:
+                neckless.extend(['s'])
+                head = None
+                mapping.remove(item)
+                continue
             if neckless[-1] == item[0]:
                 neckless.append(item[1])
-                # del mapping[bead]
-                mapping.pop(item)
-            print(neckless)
-            print(mapping)
+                mapping.remove(item)
+                continue
+            if item[0] == item[1]:
+                neckless.extend([item[0], 's'])
+                head = None
+                mapping.remove(item)
+                continue
+    idx_list = [idx for idx, val in enumerate(neckless) if val == 's']
+    res = [neckless[i: j] for i, j in zip([0] + idx_list, idx_list + ([len(neckless)] if idx_list[-1] != len(neckless) else []))]
+    print(max([len(l) for l in res]) - 1)
 if "__main__" == __name__:
     main()
