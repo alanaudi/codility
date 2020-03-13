@@ -18,7 +18,7 @@ class EasyDict(dict): # {{{
 _global_test_options = [
         # click.option('-test', '--test-arg', 'var_name', default='default value', help='Please customize option value'),
         click.option('-n', 'n', default=28, help='28'),
-        click.option('-l', 'l', default=[5,4,0,3,1,6,2], help='28'),
+        click.option('-l', 'l', default=[1, 12, 19, 7, 5, 11, 13, 16, 18, 10,  2,  6, 17, 14,  4,  3, 15,  8,  0,  9], help='list'),
         ]
 def global_test_options(func):
     for option in reversed(_global_test_options):
@@ -78,9 +78,6 @@ def test_b(**kwargs):
     head = None
     while len(mapping) > 0:
         for item in mapping:
-            print(head)
-            print(neckless)
-            print(item[0], item[1])
             if head == None: head = item[0]
             if neckless[-1] == 's':
                 neckless.extend([item[0], item[1]])
@@ -104,6 +101,7 @@ def test_b(**kwargs):
                 continue
     idx_list = [idx for idx, val in enumerate(neckless) if val == 's']
     res = [neckless[i: j] for i, j in zip([0] + idx_list, idx_list + ([len(neckless)] if idx_list[-1] != len(neckless) else []))]
+    print(res)
     print(max([len(l) for l in res]) - 1)
 if "__main__" == __name__:
     main()
